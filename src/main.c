@@ -31,8 +31,6 @@ int init()
   if(SDL_Init(SDL_INIT_EVERYTHING) == -1)
     return 1;
   
-  stdout = stdout;
-  
   screen = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, SDL_OPENGL);
   
   if(screen == NULL)
