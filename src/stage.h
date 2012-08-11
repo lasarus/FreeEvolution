@@ -41,6 +41,7 @@ typedef struct stage_base
   error_code_t (*free)(stage_base_t * self);
 } stage_base_t;
 
-
+void draw_player(player_base_t * player);
+void draw_object(object_base_t * object);
 
 #endif
