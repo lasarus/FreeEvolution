@@ -22,6 +22,7 @@ endif()
 include_directories(${OPENGL_INCLUDE_DIR})
 
 aux_source_directory(src SOURCES)
+add_definitions(-pedantic -Wall -Werror -g)
 
 add_executable(FreeEvolution ${SOURCES})
 target_link_libraries(FreeEvolution ${SDL_LIBRARY})
