@@ -36,10 +36,12 @@ typedef struct stage_base
 {
   stage_type_t type;
 
-  error_code_t (*update)(stage_base_t * self, Uint32 delta);
-  error_code_t (*draw)(stage_base_t * self);
-  error_code_t (*free)(stage_base_t * self);
+  error_code_t (*update)(struct stage_base * self, Uint32 delta);
+  error_code_t (*draw)(struct stage_base * self);
+  error_code_t (*free)(struct stage_base * self);
 } stage_base_t;
+
+error_code_t init_player(player_base_t ** player, double x, double y);
 
 void draw_player(player_base_t * player);
 void draw_object(object_base_t * object);
