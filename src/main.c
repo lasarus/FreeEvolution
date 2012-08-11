@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "error_codes.h"
+#include "stage.h"
+#include "stage_cell.h"
+
 int screen_width = 640, screen_height = 480, screen_bpp = 32;
 int quit = 0;
 
@@ -46,11 +50,17 @@ int init()
 /* main loop */
 int main(int argc, char ** argv)
 {
+  Uint32 delta_ticks, old_ticks, new_ticks;
+  stage_base_t * current_stage;
+
   if(init())
     return 1;
 
+  stage_cell_init(&current_stage);
+
   srand(time(NULL));
 
+  old_ticks = SDL_GetTicks();
   while(!quit)
     {
       if(SDL_PollEvent(&event))
@@ -60,10 +70,20 @@ int main(int argc, char ** argv)
 	      quit = 1;
 	    }
 	}
+      new_ticks = SDL_GetTicks();
+      delta_ticks = new_ticks - old_ticks;
+
+      (*current_stage->update)(current_stage, delta_ticks);
+
       glClear(GL_COLOR_BUFFER_BIT);
+
+      (*current_stage->draw)(current_stage);
+
       SDL_GL_SwapBuffers();
       SDL_Delay(10);
+      
+      old_ticks = new_ticks;
     }
-
+  (*current_stage->free)(current_stage);
   return 0;
 }
