@@ -1,6 +1,13 @@
 #ifndef STAGE_H
 #define STAGE_H
 
+#define SKELETON_LEN 10
+
+typedef struct creature_model
+  {
+    double skeleton[SKELETON_LEN];
+  } creature_model_t;
+
 typedef enum stage_type
   {
     STAGE_NULL = 0,
