@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include <math.h>
 
 #include "error_codes.h"
 #include "stage.h"
@@ -11,24 +12,26 @@ error_code_t init_creature_model(creature_model_t ** model)
   return ERROR_NONE;
 }
 
-void draw_creature_model(creature_model_t * model, double x, double y)
+void draw_creature_model(creature_model_t * model, double x, double y, double rot)
 {
   int i;
 
+  glLoadIdentity();
+  glTranslatef(x, y, 0);
+  glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
+  
   for(i = 0; i < SKELETON_LEN; i++)
     {
-      glLoadIdentity();
-
-      glTranslatef(x, y, 0);
+      glTranslatef(8, 0, 0);
 
       glBegin(GL_QUADS);
 
       glColor3f(1.f, 1.f, 1.f);
 
-      glVertex3f(-16.0 * model->skeleton[i], -16.0 * model->skeleton[i], 0);
-      glVertex3f(-16.0 * model->skeleton[i], 16.0 * model->skeleton[i], 0);
-      glVertex3f(16.0 * model->skeleton[i], 16.0 * model->skeleton[i], 0);
-      glVertex3f(16.0 * model->skeleton[i], -16.0 * model->skeleton[i], 0);
+      glVertex3f(-16.f * model->skeleton[i], -16.f * model->skeleton[i], 0);
+      glVertex3f(-16.f * model->skeleton[i], 16.f * model->skeleton[i], 0);
+      glVertex3f(16.f * model->skeleton[i], 16.f * model->skeleton[i], 0);
+      glVertex3f(16.f * model->skeleton[i], -16.f * model->skeleton[i], 0);
 
       glEnd();
     }

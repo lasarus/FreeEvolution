@@ -1,6 +1,10 @@
 #ifndef STAGE_H
 #define STAGE_H
 
+#ifndef PI
+#define PI 3.14159265358979
+#endif 
+
 #define SKELETON_LEN 10
 
 typedef struct creature_model
@@ -49,8 +53,12 @@ typedef struct stage_base
 } stage_base_t;
 
 error_code_t init_player(player_base_t ** player, double x, double y);
+error_code_t init_creature_model(creature_model_t ** model);
 
+void draw_creature_model(creature_model_t * model, double x, double y, double rot);
 void draw_player(player_base_t * player);
 void draw_object(object_base_t * object);
+
+void free_creature_model(creature_model_t * model);
 
 #endif
