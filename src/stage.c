@@ -64,7 +64,12 @@ object_base_t new_object(object_type_t type, double x, double y, double xv, doub
   return object;
 }
 
-error_code_t update_world(world_base_t * world, stage_update_info_t * status)
+double dist_from_player(double x, double y, player_base_t * player)
+{
+  return sqrt(pow(x - player->x, 2) + pow(y - player->y, 2));
+}
+
+error_code_t update_world(world_base_t * world, player_base_t * player, stage_update_info_t * status)
 {
   int i;
 
@@ -75,6 +80,12 @@ error_code_t update_world(world_base_t * world, stage_update_info_t * status)
 	case OBJECT_FOOD:
 	  world->objects[i].x += world->objects[i].xv * status->delta;
 	  world->objects[i].y += world->objects[i].yv * status->delta;
+
+	  if(dist_from_player(world->objects[i].x, world->objects[i].y, player) > 2000 ||
+	     dist_from_player(world->objects[i].x, world->objects[i].y, player) < 32)
+	    {
+	      world->objects[i].type = OBJECT_NULL;
+	    }
 	  break;
 
 	default:

@@ -45,7 +45,7 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
 				   rand() % status->screen_width, rand() % status->screen_height,
 				   ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5, ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5));
 
-  update_world(&(cell_stage->world), status);
+  update_world(&(cell_stage->world), &(cell_stage->player), status);
   
   return ERROR_NONE;
 }

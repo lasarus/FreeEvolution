@@ -72,7 +72,7 @@ error_code_t init_creature_model(creature_model_t ** model);
 
 object_base_t new_object(object_type_t type, double x, double y, double xv, double yv);
 
-error_code_t update_world(world_base_t * world, stage_update_info_t * status);
+error_code_t update_world(world_base_t * world, player_base_t * player, stage_update_info_t * status);
 void draw_world(world_base_t * world);
 void add_object_to_world(world_base_t * world, object_base_t object);
 
