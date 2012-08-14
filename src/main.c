@@ -77,6 +77,8 @@ int main(int argc, char ** argv)
       stage_state->delta = new_ticks - old_ticks;
       stage_state->time = new_ticks;
 
+      stage_state->mouse_state.button = SDL_GetMouseState(&stage_state->mouse_state.x, &stage_state->mouse_state.y);
+
       stage_state->keystate = SDL_GetKeyState(NULL);
 
       (*current_stage->update)(current_stage, stage_state);

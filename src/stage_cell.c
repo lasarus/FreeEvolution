@@ -38,6 +38,16 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
     {
       cell_stage->player.xv += 1 * PLAYER_SPEED;
     }
+
+  if(status->mouse_state.button & SDL_BUTTON(1))
+    {
+      double angl;
+
+      angl = atan2(status->mouse_state.y - cell_stage->player.y, -(status->mouse_state.x - cell_stage->player.x));
+
+      cell_stage->player.xv -= cos(angl) * PLAYER_SPEED;
+      cell_stage->player.yv += sin(angl) * PLAYER_SPEED;
+    }
   
   if(rand() % 128 == 0)
     add_object_to_world(&(cell_stage->world),

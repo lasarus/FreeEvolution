@@ -56,6 +56,13 @@ typedef struct stage_update_info
 
   int screen_width;
   int screen_height;
+
+  struct
+  {
+    int x;
+    int y;
+    Uint8 button;
+  } mouse_state;
 } stage_update_info_t;
 
 typedef struct stage_base
