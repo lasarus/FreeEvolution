@@ -26,7 +26,7 @@ void draw_creature_model(creature_model_t * model, double x, double y, double ro
 
       glBegin(GL_QUADS);
 
-      glColor3f(0.015625, 0.359375, 0.015625);
+      glColor3f(0.000000, 0.535156, 0.488281);
 
       glVertex3f(-16.f * model->skeleton[i], -16.f * model->skeleton[i], 0);
       glVertex3f(-16.f * model->skeleton[i], 16.f * model->skeleton[i], 0);
@@ -154,7 +154,7 @@ void draw_object(object_base_t * object)
 
   glBegin(GL_QUADS);
 
-  glColor3f(1.f, 1.f, 1.f);
+  glColor3f(0.000000, 0.535156, 0.000000);
 
   glVertex3f(-16, -16, 0);
   glVertex3f(-16, 16, 0);
