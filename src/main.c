@@ -7,7 +7,7 @@
 #include "stage.h"
 #include "stage_cell.h"
 
-int screen_width = 640, screen_height = 480, screen_bpp = 32;
+int screen_width = 1280, screen_height = 720, screen_bpp = 32;
 int quit = 0;
 
 /* inits SDL and OpenGL */
