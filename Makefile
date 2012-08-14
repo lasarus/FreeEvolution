@@ -1,5 +1,5 @@
 CC := gcc
-CCFLAGS := -pedantic -Wall -Werror -g -lSDL -lm -lGL
+CCFLAGS := -pedantic -Wall -Werror -g -lSDL -lSDL_image -lm -lGL
 
 SRCDIRS := src
 SOURCES := $(foreach DIR, $(SRCDIRS), $(wildcard $(DIR)/*.c))

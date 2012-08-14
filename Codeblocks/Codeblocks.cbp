@@ -35,7 +35,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32 -lSDLmain -lSDL -lm -lglu32 -lopengl32" />
+			<Add option="-lmingw32 -lSDLmain -lSDL -lSDL_image -lm -lglu32 -lopengl32" />
 		</Linker>
 		<Unit filename="..\src\error_codes.h" />
 		<Unit filename="..\src\main.c">
