@@ -4,7 +4,7 @@
 typedef enum error_code
   {
     ERROR_NONE = 0,
-ERROR_UNKNOWN
+    ERROR_UNKNOWN
   } error_code_t;
 
 #endif
