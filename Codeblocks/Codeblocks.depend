@@ -1,16 +1,16 @@
 # depslib dependency file v1.0
-1344954698 source:d:\clonefish\freeevolution\src\stage.c
+1344958184 source:d:\clonefish\freeevolution\src\stage.c
 	<SDL/SDL.h>
 	<SDL/SDL_opengl.h>
 	<math.h>
 	"error_codes.h"
 	"stage.h"
 
-1344954698 d:\clonefish\freeevolution\src\error_codes.h
+1344958184 d:\clonefish\freeevolution\src\error_codes.h
 
-1344954698 d:\clonefish\freeevolution\src\stage.h
+1344958184 d:\clonefish\freeevolution\src\stage.h
 
-1344954698 source:d:\clonefish\freeevolution\src\stage_cell.c
+1344958184 source:d:\clonefish\freeevolution\src\stage_cell.c
 	<SDL/SDL.h>
 	<SDL/SDL_opengl.h>
 	<stdlib.h>
@@ -20,9 +20,9 @@
 	"stage.h"
 	"stage_cell.h"
 
-1344954698 d:\clonefish\freeevolution\src\stage_cell.h
+1344958184 d:\clonefish\freeevolution\src\stage_cell.h
 
-1344954698 source:d:\clonefish\freeevolution\src\main.c
+1344958184 source:d:\clonefish\freeevolution\src\main.c
 	<SDL/SDL.h>
 	<SDL/SDL_opengl.h>
 	<stdlib.h>
