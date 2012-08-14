@@ -6,14 +6,35 @@
 #include "stage.h"
 #include "stage_cell.h"
 
-#define PLAYER_SPEED .1
+#define PLAYER_SPEED .05
 
-error_code_t stage_cell_update(stage_base_t * self, Uint32 delta)
+error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status)
 {
+  Uint8 * keystate = status->keystate;
   stage_cell_t * cell_stage = (stage_cell_t *)self;
   
-  cell_stage->player.x += PLAYER_SPEED * delta;
-  cell_stage->player.y += PLAYER_SPEED * delta;
+  cell_stage->player.x += cell_stage->player.xv * status->delta;
+  cell_stage->player.y += cell_stage->player.yv * status->delta;
+
+  cell_stage->player.xv /= 1.1;
+  cell_stage->player.yv /= 1.1;
+
+  if(keystate[SDLK_w])
+    {
+      cell_stage->player.yv += -PLAYER_SPEED;
+    }
+  else if(keystate[SDLK_s])
+    {
+      cell_stage->player.yv += PLAYER_SPEED;
+    }
+  else if(keystate[SDLK_a])
+    {
+      cell_stage->player.xv += -PLAYER_SPEED;
+    }
+  else if(keystate[SDLK_d])
+    {
+      cell_stage->player.xv += PLAYER_SPEED;
+    }
   
   return ERROR_NONE;
 }
@@ -23,7 +44,7 @@ error_code_t stage_cell_draw(stage_base_t * self)
   stage_cell_t * cell_stage = (stage_cell_t *)self;
   /*draw_player(&(cell_stage->player));*/
 
-  draw_creature_model(&(cell_stage->skeleton), cell_stage->player.x, cell_stage->player.y, PI / 3);
+  draw_creature_model(&(cell_stage->skeleton), cell_stage->player.x, cell_stage->player.y, atan2(-cell_stage->player.yv, -cell_stage->player.xv));
   
   return ERROR_NONE;
 }

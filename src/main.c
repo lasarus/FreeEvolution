@@ -50,13 +50,16 @@ int init()
 /* main loop */
 int main(int argc, char ** argv)
 {
-  Uint32 delta_ticks, old_ticks, new_ticks;
+  Uint32 old_ticks, new_ticks;
   stage_base_t * current_stage;
+  stage_update_info_t * stage_state;
 
   if(init())
     return 1;
 
   stage_cell_init(&current_stage);
+  
+  stage_state = malloc(sizeof(stage_update_info_t));
 
   srand(time(NULL));
 
@@ -71,9 +74,11 @@ int main(int argc, char ** argv)
 	    }
 	}
       new_ticks = SDL_GetTicks();
-      delta_ticks = new_ticks - old_ticks;
+      stage_state->delta = new_ticks - old_ticks;
 
-      (*current_stage->update)(current_stage, delta_ticks);
+      stage_state->keystate = SDL_GetKeyState(NULL);
+
+      (*current_stage->update)(current_stage, stage_state);
 
       glClear(GL_COLOR_BUFFER_BIT);
 
