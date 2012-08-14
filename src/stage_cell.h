@@ -5,6 +5,8 @@ typedef struct stage_cell
 {
   struct stage_base base;
 
+  world_base_t world;
+
   player_base_t player;
   creature_model_t skeleton;
 } stage_cell_t;

@@ -58,9 +58,9 @@ int main(int argc, char ** argv)
     return 1;
 
   stage_cell_init(&current_stage);
-  
   stage_state = malloc(sizeof(stage_update_info_t));
-
+  stage_state->screen_width = screen_width;
+  stage_state->screen_height = screen_height;
   srand(time(NULL));
 
   old_ticks = SDL_GetTicks();
@@ -75,6 +75,7 @@ int main(int argc, char ** argv)
 	}
       new_ticks = SDL_GetTicks();
       stage_state->delta = new_ticks - old_ticks;
+      stage_state->time = new_ticks;
 
       stage_state->keystate = SDL_GetKeyState(NULL);
 

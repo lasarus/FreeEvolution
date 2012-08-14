@@ -24,15 +24,15 @@ typedef enum stage_type
 typedef enum object_type
   {
     OBJECT_NULL = 0,
+    OBJECT_FOOD,
     OBJECT_AI
   } object_type_t;
 
-/* Not yet used */
 typedef struct object_base
 {
   object_type_t type;
-  double x;
-  double y;
+  double x, xv;
+  double y, yv;
 } object_base_t;
 
 /* player position and speed */
@@ -42,7 +42,6 @@ typedef struct player_base
   double y, yv;
 } player_base_t;
 
-/* Not yet used */
 typedef struct world_base
 {
   Uint32 object_count;
@@ -52,7 +51,11 @@ typedef struct world_base
 typedef struct stage_update_info
 {
   Uint32 delta;
+  Uint32 time;
   Uint8 * keystate;
+
+  int screen_width;
+  int screen_height;
 } stage_update_info_t;
 
 typedef struct stage_base
@@ -66,6 +69,12 @@ typedef struct stage_base
 
 error_code_t init_player(player_base_t ** player, double x, double y);
 error_code_t init_creature_model(creature_model_t ** model);
+
+object_base_t new_object(object_type_t type, double x, double y, double xv, double yv);
+
+error_code_t update_world(world_base_t * world, stage_update_info_t * status);
+void draw_world(world_base_t * world);
+void add_object_to_world(world_base_t * world, object_base_t object);
 
 void draw_creature_model(creature_model_t * model, double x, double y, double rot);
 void draw_player(player_base_t * player);

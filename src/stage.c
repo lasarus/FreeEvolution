@@ -52,6 +52,71 @@ error_code_t init_player(player_base_t ** player, double x, double y)
   return ERROR_NONE;
 }
 
+object_base_t new_object(object_type_t type, double x, double y, double xv, double yv)
+{
+  object_base_t object;
+  object.type = type;
+  object.x = x;
+  object.y = y;
+  object.xv = xv;
+  object.yv = yv;
+
+  return object;
+}
+
+error_code_t update_world(world_base_t * world, stage_update_info_t * status)
+{
+  int i;
+
+  for(i = 0; i < world->object_count; i++)
+    {
+      switch(world->objects[i].type)
+	{
+	case OBJECT_FOOD:
+	  world->objects[i].x += world->objects[i].xv * status->delta;
+	  world->objects[i].y += world->objects[i].yv * status->delta;
+	  break;
+
+	default:
+	  break;
+	}
+    }
+
+  return ERROR_NONE;
+}
+
+void draw_world(world_base_t * world)
+{
+  int i;
+
+  for(i = 0; i < world->object_count; i++)
+    {
+      switch(world->objects[i].type)
+	{
+	case OBJECT_FOOD:
+	  draw_object(&(world->objects[i]));
+	  break;
+
+	default:
+	  break;
+	}
+    }
+}
+
+void add_object_to_world(world_base_t * world, object_base_t object)
+{
+  int i;
+
+  for(i = 0; i < world->object_count; i++)
+    {
+      if(world->objects[i].type == OBJECT_NULL)
+	{
+	  world->objects[i] = object;
+	  break;
+	}
+    }
+}
+
 void draw_player(player_base_t * player)
 {
   glLoadIdentity();
