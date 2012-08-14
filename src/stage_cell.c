@@ -1,5 +1,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include <stdlib.h>
+#include <time.h>
 #include <math.h>
 
 #include "error_codes.h"
@@ -21,20 +23,22 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
 
   if(keystate[SDLK_w])
     {
-      cell_stage->player.yv += -PLAYER_SPEED;
+      cell_stage->player.yv += -1 * PLAYER_SPEED;
     }
-  else if(keystate[SDLK_s])
+  if(keystate[SDLK_s])
     {
-      cell_stage->player.yv += PLAYER_SPEED;
+      cell_stage->player.yv += 1 * PLAYER_SPEED;
     }
-  else if(keystate[SDLK_a])
+  if(keystate[SDLK_a])
     {
-      cell_stage->player.xv += -PLAYER_SPEED;
+      cell_stage->player.xv += -1 * PLAYER_SPEED;
     }
-  else if(keystate[SDLK_d])
+  if(keystate[SDLK_d])
     {
-      cell_stage->player.xv += PLAYER_SPEED;
+      cell_stage->player.xv += 1 * PLAYER_SPEED;
     }
+
+  
   
   return ERROR_NONE;
 }
@@ -61,11 +65,16 @@ error_code_t stage_cell_init(stage_base_t ** stage)
   int i;
   stage_cell_t * cell_stage = malloc(sizeof(stage_cell_t));
 
-  cell_stage->player.x = 0;
-  cell_stage->player.y = 0;
-  
-  for(i = 0; i < SKELETON_LEN; i++)
-    cell_stage->skeleton.skeleton[i] = (SKELETON_LEN - i) * .1;
+  srand(time(NULL));
+
+  printf("time: %ui\n", (unsigned int)time(NULL));
+
+  cell_stage->player.x = 64;
+  cell_stage->player.y = 64;
+
+  cell_stage->skeleton.skeleton[0] = 1;
+  for(i = 1; i < SKELETON_LEN; i++)
+    cell_stage->skeleton.skeleton[i] = cell_stage->skeleton.skeleton[i - 1] - (1. / SKELETON_LEN);
 
   cell_stage->base.update = &stage_cell_update;
   cell_stage->base.draw = &stage_cell_draw;

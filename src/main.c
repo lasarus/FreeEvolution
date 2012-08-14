@@ -16,7 +16,7 @@ SDL_Event event;
 
 int init_gl()
 {
-  glClearColor(0.f, 0.f, 0.f, 0);
+  glClearColor(0.50390625f, 0.6953125f, 0.85546875f, 0);
   
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
