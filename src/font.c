@@ -30,7 +30,12 @@ error_code_t font_create(font_t * font, char * path)
   return ERROR_NONE;
 }
 
-error_code_t font_write(font_t font, double x, double y, double size, char * text)
+error_code_t font_write(font_t font, double x, double y, double vsize, double hsize, char * text)
+{
+  return font_write_color(font, x, y, vsize, hsize, text, 0, 0, 0);
+}
+
+error_code_t font_write_color(font_t font, double x, double y, double vsize, double hsize, char * text, float r, float g, float b)
 {
   int i = 0;
   int j = 0;
@@ -53,18 +58,18 @@ error_code_t font_write(font_t font, double x, double y, double size, char * tex
       ytex = (*text / 16) * font.ch;
 
       glLoadIdentity();
-      glTranslatef(x + (i * size), y + (j * size), 0);
+      glTranslatef(x + (i * vsize), y + (j * hsize), 0);
 
-      glColor3f(.5, .5, .5);
+      glColor3f(r, g, b);
 
       glBindTexture(GL_TEXTURE_2D, font.texture);
 
       glBegin(GL_QUADS);
       
       glTexCoord2f((1. / font.tw) * xtex, (1. / font.th) * ytex); glVertex3f(0, 0, 0);
-      glTexCoord2f((1. / font.tw) * (xtex + font.cw), (1. / font.th) * ytex); glVertex3f(16, 0, 0);
-      glTexCoord2f((1. / font.tw) * (xtex + font.cw), (1. / font.th) * (ytex + font.ch)); glVertex3f(16, 16, 0);
-      glTexCoord2f((1. / font.tw) * xtex, (1. / font.th) * (ytex + font.ch)); glVertex3f(0, 16, 0);
+      glTexCoord2f((1. / font.tw) * (xtex + font.cw), (1. / font.th) * ytex); glVertex3f(vsize, 0, 0);
+      glTexCoord2f((1. / font.tw) * (xtex + font.cw), (1. / font.th) * (ytex + font.ch)); glVertex3f(vsize, hsize, 0);
+      glTexCoord2f((1. / font.tw) * xtex, (1. / font.th) * (ytex + font.ch)); glVertex3f(0, hsize, 0);
 
       glEnd();
 

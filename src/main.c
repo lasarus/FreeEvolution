@@ -110,10 +110,9 @@ int main(int argc, char ** argv)
 	}
       
       sprintf(buffer, "time: %u:%u.%u\nframe: %u\nfps: %u", (new_ticks / 1000) / 60, (new_ticks / 1000) % 60, new_ticks % 1000, frame, fps);
-      font_write(font, 0, 0, 16, buffer);
+      font_write_color(font, 0, 0, 16, 16, buffer, 1, 0, 0);
 
       SDL_GL_SwapBuffers();
-      SDL_Delay(50);
       
       old_ticks = new_ticks;
       frame++;
