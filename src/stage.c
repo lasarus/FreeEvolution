@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "error_codes.h"
+#include "font.h"
 #include "stage.h"
 
 error_code_t init_creature_model(creature_model_t ** model)
@@ -26,7 +27,7 @@ void draw_creature_model(creature_model_t * model, double x, double y, double ro
 
       glBegin(GL_QUADS);
 
-      glColor3f(0.000000, 0.535156, 0.488281);
+      glColor4f(0.000000, 0.535156, 0.488281, 1);
 
       glVertex3f(-8, -16.f * model->skeleton[i - 1], 0);
       glVertex3f(-8, 16.f * model->skeleton[i - 1], 0);
@@ -96,7 +97,7 @@ error_code_t update_world(world_base_t * world, player_base_t * player, stage_up
   return ERROR_NONE;
 }
 
-void draw_world(world_base_t * world)
+void draw_world(world_base_t * world, stage_draw_info_t * info)
 {
   int i;
 
@@ -106,6 +107,9 @@ void draw_world(world_base_t * world)
 	{
 	case OBJECT_FOOD:
 	  draw_object(&(world->objects[i]));
+
+	  if(info->debug)
+	    font_write_color(info->font, world->objects[i].x, world->objects[i].y, 16, 16, "Food", 0, 0, 0);
 	  break;
 
 	default:

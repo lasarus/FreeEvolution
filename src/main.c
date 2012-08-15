@@ -4,9 +4,9 @@
 #include <time.h>
 
 #include "error_codes.h"
+#include "font.h"
 #include "stage.h"
 #include "stage_cell.h"
-#include "font.h"
 
 int screen_width = 1280, screen_height = 720, screen_bpp = 32;
 int quit = 0;
@@ -60,6 +60,7 @@ int main(int argc, char ** argv)
   Uint32 old_ticks, new_ticks;
   stage_base_t * current_stage;
   stage_update_info_t * stage_state;
+  stage_draw_info_t * stage_draw_info;
   font_t font;
 
   if(init())
@@ -71,6 +72,10 @@ int main(int argc, char ** argv)
   stage_state->screen_height = screen_height;
 
   font_create(&font, "default.png");
+
+  stage_draw_info = malloc(sizeof(stage_draw_info_t));
+  stage_draw_info->font = font;
+  stage_draw_info->debug = 1;
 
   srand(time(NULL));
 
@@ -84,6 +89,10 @@ int main(int argc, char ** argv)
 	  if(event.type == SDL_QUIT)
 	    {
 	      quit = 1;
+	    }
+	  else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+	    {
+	      stage_draw_info->debug = !stage_draw_info->debug;
 	    }
 	}
 
@@ -100,7 +109,7 @@ int main(int argc, char ** argv)
 
       glClear(GL_COLOR_BUFFER_BIT);
 
-      (*current_stage->draw)(current_stage);
+      (*current_stage->draw)(current_stage, stage_draw_info);
 
       if(frame_count_c - frame_count_s > 1000)
 	{
@@ -110,7 +119,9 @@ int main(int argc, char ** argv)
 	}
       
       sprintf(buffer, "time:\t%u:%u.%u\nframe:\t%u\nfps:\t%u", (new_ticks / 1000) / 60, (new_ticks / 1000) % 60, new_ticks % 1000, frame, fps);
-      font_angled_write_color(font, screen_width / 2 - 64, screen_height / 2 - 64, 32, 32, buffer, 1, 0, 0, 45);
+
+      if(stage_draw_info->debug)
+	font_write_color(font, 0, 0, 32, 32, buffer, 0, 0, 0);
 
       SDL_GL_SwapBuffers();
       

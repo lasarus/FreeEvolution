@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "error_codes.h"
+#include "font.h"
 #include "stage.h"
 #include "stage_cell.h"
 
@@ -60,13 +61,16 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
   return ERROR_NONE;
 }
 
-error_code_t stage_cell_draw(stage_base_t * self)
+error_code_t stage_cell_draw(stage_base_t * self, stage_draw_info_t * info)
 {
   stage_cell_t * cell_stage = (stage_cell_t *)self;
   /*draw_player(&(cell_stage->player));*/
 
+  draw_world(&(cell_stage->world), info);
   draw_creature_model(&(cell_stage->skeleton), cell_stage->player.x, cell_stage->player.y, atan2(-cell_stage->player.yv, -cell_stage->player.xv));
-  draw_world(&(cell_stage->world));
+
+  if(info->debug)
+    font_write_color(info->font, cell_stage->player.x, cell_stage->player.y, 16, 16, "Player", 0, 0, 0);
   
   return ERROR_NONE;
 }

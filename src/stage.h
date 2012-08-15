@@ -65,12 +65,18 @@ typedef struct stage_update_info
   } mouse_state;
 } stage_update_info_t;
 
+typedef struct stage_draw_info
+{
+  int debug;
+  font_t font;
+} stage_draw_info_t;
+
 typedef struct stage_base
 {
   stage_type_t type;
 
   error_code_t (*update)(struct stage_base * self, stage_update_info_t * state);
-  error_code_t (*draw)(struct stage_base * self);
+  error_code_t (*draw)(struct stage_base * self, stage_draw_info_t * info);
   error_code_t (*free)(struct stage_base * self);
 } stage_base_t;
 
@@ -80,7 +86,7 @@ error_code_t init_creature_model(creature_model_t ** model);
 object_base_t new_object(object_type_t type, double x, double y, double xv, double yv);
 
 error_code_t update_world(world_base_t * world, player_base_t * player, stage_update_info_t * status);
-void draw_world(world_base_t * world);
+void draw_world(world_base_t * world, stage_draw_info_t * info);
 void add_object_to_world(world_base_t * world, object_base_t object);
 
 void draw_creature_model(creature_model_t * model, double x, double y, double rot);
