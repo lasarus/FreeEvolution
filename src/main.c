@@ -6,6 +6,7 @@
 #include "error_codes.h"
 #include "font.h"
 #include "stage.h"
+#include "creature_editor.h"
 #include "stage_cell.h"
 
 int screen_width = 1280, screen_height = 720, screen_bpp = 32;
@@ -70,12 +71,15 @@ int main(int argc, char ** argv)
   stage_state = malloc(sizeof(stage_update_info_t));
   stage_state->screen_width = screen_width;
   stage_state->screen_height = screen_height;
+  stage_state->keydown = SDLK_UNKNOWN;
 
   font_create(&font, "default.png");
 
   stage_draw_info = malloc(sizeof(stage_draw_info_t));
   stage_draw_info->font = font;
   stage_draw_info->debug = 1;
+  stage_draw_info->screen_width = screen_width;
+  stage_draw_info->screen_height = screen_height;
 
   srand(time(NULL));
 
@@ -90,10 +94,13 @@ int main(int argc, char ** argv)
 	    {
 	      quit = 1;
 	    }
-	  else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+	  else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F1)
 	    {
 	      stage_draw_info->debug = !stage_draw_info->debug;
 	    }
+
+	  if(event.type == SDL_KEYDOWN)
+	    stage_state->keydown = event.key.keysym.sym;
 	}
 
       new_ticks = SDL_GetTicks();
@@ -106,6 +113,10 @@ int main(int argc, char ** argv)
       stage_state->keystate = SDL_GetKeyState(NULL);
 
       (*current_stage->update)(current_stage, stage_state);
+
+      stage_state->keydown = SDLK_UNKNOWN;
+
+      /*DRAWING*/
 
       glClear(GL_COLOR_BUFFER_BIT);
 

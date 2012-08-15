@@ -9,6 +9,9 @@ typedef struct stage_cell
 
   player_base_t player;
   creature_model_t skeleton;
+
+  int editor;
+  editor_data_t editor_data;
 } stage_cell_t;
 
 error_code_t stage_cell_init(stage_base_t ** stage);

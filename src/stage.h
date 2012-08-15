@@ -54,6 +54,8 @@ typedef struct stage_update_info
   Uint32 time;
   Uint8 * keystate;
 
+  SDLKey keydown;
+
   int screen_width;
   int screen_height;
 
@@ -69,6 +71,9 @@ typedef struct stage_draw_info
 {
   int debug;
   font_t font;
+
+  int screen_width;
+  int screen_height;
 } stage_draw_info_t;
 
 typedef struct stage_base
