@@ -5,6 +5,7 @@
 
 #include "error_codes.h"
 #include "font.h"
+#include "creature_model.h"
 #include "stage.h"
 #include "creature_editor.h"
 #include "stage_cell.h"

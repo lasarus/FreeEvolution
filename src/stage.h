@@ -5,15 +5,6 @@
 #define PI 3.14159265358979
 #endif 
 
-#define SKELETON_LEN 15
-
-/* Creature model/skeleton */
-typedef struct creature_model
-  {
-    int eyes;
-    double skeleton[SKELETON_LEN];
-  } creature_model_t;
-
 /* Type of stage (not yet used) */
 typedef enum stage_type
   {
@@ -87,7 +78,6 @@ typedef struct stage_base
 } stage_base_t;
 
 error_code_t init_player(player_base_t ** player, double x, double y);
-error_code_t init_creature_model(creature_model_t ** model);
 
 object_base_t new_object(object_type_t type, double x, double y, double xv, double yv);
 
@@ -95,10 +85,7 @@ error_code_t update_world(world_base_t * world, player_base_t * player, stage_up
 void draw_world(world_base_t * world, stage_draw_info_t * info);
 void add_object_to_world(world_base_t * world, object_base_t object);
 
-void draw_creature_model(creature_model_t * model, double x, double y, double rot);
 void draw_player(player_base_t * player);
 void draw_object(object_base_t * object);
-
-void free_creature_model(creature_model_t * model);
 
 #endif
