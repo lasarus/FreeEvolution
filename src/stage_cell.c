@@ -118,6 +118,7 @@ error_code_t stage_cell_init(stage_base_t ** stage)
   cell_stage->skeleton.skeleton[1] = 1;
   for(i = 2; i < SKELETON_LEN; i++)
     cell_stage->skeleton.skeleton[i] = (1. / i) * 2;
+  cell_stage->skeleton.eyes = 1;
 
   cell_stage->base.update = &stage_cell_update;
   cell_stage->base.draw = &stage_cell_draw;

@@ -22,9 +22,20 @@ editor_data_t init_creature_editor(creature_model_t * creature)
 int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
 {
   if(state->keystate[SDLK_UP] && data->creature->skeleton[data->selected] < 10)
-    data->creature->skeleton[data->selected] += 0.01;
-  else if(state->keystate[SDLK_DOWN] && data->creature->skeleton[data->selected] > 0.1)
-    data->creature->skeleton[data->selected] -= 0.01;
+    {
+      if(data->creature->skeleton[data->selected] < 10)
+	data->creature->skeleton[data->selected] += 0.01 * state->delta;
+    }
+  else if(state->keystate[SDLK_DOWN])
+    {
+      if(data->creature->skeleton[data->selected] > 0.1)
+	data->creature->skeleton[data->selected] -= 0.01 * state->delta;
+    }
+
+  if(data->creature->skeleton[data->selected] > 10)
+    data->creature->skeleton[data->selected] = 10;
+  else if(data->creature->skeleton[data->selected] < 0.1)
+    data->creature->skeleton[data->selected] = 0.1;
 
 
   if(state->keydown == SDLK_LEFT)

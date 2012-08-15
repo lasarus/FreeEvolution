@@ -10,6 +10,7 @@
 /* Creature model/skeleton */
 typedef struct creature_model
   {
+    int eyes;
     double skeleton[SKELETON_LEN];
   } creature_model_t;
 

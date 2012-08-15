@@ -22,6 +22,8 @@ int init_gl()
   glEnable(GL_BLEND);
   glEnable(GL_TEXTURE_2D);
 
+  glEnable(GL_POLYGON_SMOOTH);
+
   glClearColor(0.50390625f, 0.6953125f, 0.85546875f, 1);
 
   glMatrixMode(GL_PROJECTION);

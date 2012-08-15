@@ -13,6 +13,50 @@ error_code_t init_creature_model(creature_model_t ** model)
   return ERROR_NONE;
 }
 
+void draw_creature_eyes(creature_model_t * model, double x, double y, double rot)
+{
+  glLoadIdentity();
+  glTranslatef(x, y, 0);
+  glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
+  glTranslatef(model->eyes * 8, model->skeleton[model->eyes] * 16, 0);
+
+  glBegin(GL_QUADS);
+  
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-8., -8., 0);
+  glVertex3f(8., -8., 0);
+  glVertex3f(8., 8., 0);
+  glVertex3f(-8., 8., 0);
+
+  glColor4f(0, 0, 0, 1);
+  glVertex3f(-2., -2., 0);
+  glVertex3f(2., -2., 0);
+  glVertex3f(2., 2., 0);
+  glVertex3f(-2., 2., 0);
+      
+  glEnd();
+
+  glTranslatef(0, -(model->skeleton[model->eyes] * 32), 0);
+
+  glBegin(GL_QUADS);
+  
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-8., -8., 0);
+  glVertex3f(8., -8., 0);
+  glVertex3f(8., 8., 0);
+  glVertex3f(-8., 8., 0);
+
+  glColor4f(0, 0, 0, 1);
+  glVertex3f(-2., -2., 0);
+  glVertex3f(2., -2., 0);
+  glVertex3f(2., 2., 0);
+  glVertex3f(-2., 2., 0);
+      
+  glEnd();
+}
+
 void draw_creature_model(creature_model_t * model, double x, double y, double rot)
 {
   int i;
@@ -36,6 +80,8 @@ void draw_creature_model(creature_model_t * model, double x, double y, double ro
 
       glEnd();
     }
+
+  draw_creature_eyes(model, x, y, rot);
 }
 
 void free_creature_model(creature_model_t * model)
