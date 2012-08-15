@@ -8,7 +8,7 @@
 #include "stage.h"
 #include "stage_cell.h"
 
-#define PLAYER_SPEED .02
+#define PLAYER_SPEED .002
 #define OBJECT_SPEED .05
 
 error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status)
@@ -24,19 +24,19 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
 
   if(keystate[SDLK_w])
     {
-      cell_stage->player.yv += -1 * PLAYER_SPEED;
+      cell_stage->player.yv += -1 * PLAYER_SPEED * status->delta;
     }
   if(keystate[SDLK_s])
     {
-      cell_stage->player.yv += 1 * PLAYER_SPEED;
+      cell_stage->player.yv += 1 * PLAYER_SPEED * status->delta;
     }
   if(keystate[SDLK_a])
     {
-      cell_stage->player.xv += -1 * PLAYER_SPEED;
+      cell_stage->player.xv += -1 * PLAYER_SPEED * status->delta;
     }
   if(keystate[SDLK_d])
     {
-      cell_stage->player.xv += 1 * PLAYER_SPEED;
+      cell_stage->player.xv += 1 * PLAYER_SPEED * status->delta;
     }
 
   if(status->mouse_state.button & SDL_BUTTON(1))
@@ -45,8 +45,8 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
 
       angl = atan2(status->mouse_state.y - cell_stage->player.y, -(status->mouse_state.x - cell_stage->player.x));
 
-      cell_stage->player.xv -= cos(angl) * PLAYER_SPEED;
-      cell_stage->player.yv += sin(angl) * PLAYER_SPEED;
+      cell_stage->player.xv -= cos(angl) * PLAYER_SPEED * status->delta;
+      cell_stage->player.yv += sin(angl) * PLAYER_SPEED * status->delta;
     }
   
   if(rand() % 128 == 0)
