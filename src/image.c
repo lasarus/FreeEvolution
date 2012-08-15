@@ -1,3 +1,8 @@
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_opengl.h>
+
+#include "error_codes.h"
 #include "image.h"
 
 SDL_Surface * load_image(char * filename)
@@ -13,7 +18,7 @@ SDL_Surface * load_image(char * filename)
   return optimizedImage;
 }
 
-error_code_t OGConvertS(SDL_Surface * surface, GLuint * tex2)
+error_code_t surface_to_GLtexture(SDL_Surface * surface, GLuint * tex2)
 {
   GLuint texture;
   GLenum texture_format;

@@ -5,7 +5,7 @@
 #define PI 3.14159265358979
 #endif 
 
-#define SKELETON_LEN 10
+#define SKELETON_LEN 15
 
 /* Creature model/skeleton */
 typedef struct creature_model

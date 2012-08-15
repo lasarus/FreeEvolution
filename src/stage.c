@@ -20,7 +20,7 @@ void draw_creature_model(creature_model_t * model, double x, double y, double ro
   glTranslatef(x, y, 0);
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
   
-  for(i = 0; i < SKELETON_LEN; i++)
+  for(i = 1; i < SKELETON_LEN; i++)
     {
       glTranslatef(8, 0, 0);
 
@@ -28,10 +28,10 @@ void draw_creature_model(creature_model_t * model, double x, double y, double ro
 
       glColor3f(0.000000, 0.535156, 0.488281);
 
-      glVertex3f(-16.f * model->skeleton[i], -16.f * model->skeleton[i], 0);
-      glVertex3f(-16.f * model->skeleton[i], 16.f * model->skeleton[i], 0);
-      glVertex3f(16.f * model->skeleton[i], 16.f * model->skeleton[i], 0);
-      glVertex3f(16.f * model->skeleton[i], -16.f * model->skeleton[i], 0);
+      glVertex3f(-8, -16.f * model->skeleton[i - 1], 0);
+      glVertex3f(-8, 16.f * model->skeleton[i - 1], 0);
+      glVertex3f(0, 16.f * model->skeleton[i], 0);
+      glVertex3f(0, -16.f * model->skeleton[i], 0);
 
       glEnd();
     }
@@ -82,7 +82,7 @@ error_code_t update_world(world_base_t * world, player_base_t * player, stage_up
 	  world->objects[i].y += world->objects[i].yv * status->delta;
 
 	  if(dist_from_player(world->objects[i].x, world->objects[i].y, player) > 2000 ||
-	     dist_from_player(world->objects[i].x, world->objects[i].y, player) < 32)
+	     dist_from_player(world->objects[i].x, world->objects[i].y, player) < 16)
 	    {
 	      world->objects[i].type = OBJECT_NULL;
 	    }

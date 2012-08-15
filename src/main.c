@@ -6,6 +6,7 @@
 #include "error_codes.h"
 #include "stage.h"
 #include "stage_cell.h"
+#include "font.h"
 
 int screen_width = 1280, screen_height = 720, screen_bpp = 32;
 int quit = 0;
@@ -16,14 +17,18 @@ SDL_Event event;
 
 int init_gl()
 {
-  glClearColor(0.50390625f, 0.6953125f, 0.85546875f, 0);
-  
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+  glEnable(GL_TEXTURE_2D);
+
+  glClearColor(0.50390625f, 0.6953125f, 0.85546875f, 1);
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0, screen_width, screen_height, 0, -1, 1);
-  
+
   glMatrixMode(GL_MODELVIEW);
-  
+
   if(glGetError() != GL_NO_ERROR)
     return 1;
   
@@ -53,6 +58,7 @@ int main(int argc, char ** argv)
   Uint32 old_ticks, new_ticks;
   stage_base_t * current_stage;
   stage_update_info_t * stage_state;
+  font_t font;
 
   if(init())
     return 1;
@@ -61,6 +67,9 @@ int main(int argc, char ** argv)
   stage_state = malloc(sizeof(stage_update_info_t));
   stage_state->screen_width = screen_width;
   stage_state->screen_height = screen_height;
+
+  font_create(&font, "default.png");
+
   srand(time(NULL));
 
   old_ticks = SDL_GetTicks();
@@ -73,6 +82,7 @@ int main(int argc, char ** argv)
 	      quit = 1;
 	    }
 	}
+
       new_ticks = SDL_GetTicks();
       stage_state->delta = new_ticks - old_ticks;
       stage_state->time = new_ticks;
@@ -87,8 +97,10 @@ int main(int argc, char ** argv)
 
       (*current_stage->draw)(current_stage);
 
+      font_write(font, 0, 0, 16, "Text!");
+
       SDL_GL_SwapBuffers();
-      SDL_Delay(10);
+      /*SDL_Delay(10);*/
       
       old_ticks = new_ticks;
     }

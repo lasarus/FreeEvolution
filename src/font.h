@@ -1,8 +1,15 @@
 #ifndef FONT_H
 #define FONT_H
 
-#include "error_codes.h"
+typedef struct font
+{
+  int tw, th;
+  int cw, ch;
 
-error_code_t font_write(double x, double y, char * text);
+  GLuint texture;
+} font_t;
+
+error_code_t font_create(font_t * font, char * path);
+error_code_t font_write(font_t font, double x, double y, double size, char * text);
 
 #endif

@@ -8,7 +8,7 @@
 #include "stage.h"
 #include "stage_cell.h"
 
-#define PLAYER_SPEED .05
+#define PLAYER_SPEED .02
 #define OBJECT_SPEED .05
 
 error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status)
@@ -19,8 +19,8 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
   cell_stage->player.x += cell_stage->player.xv * status->delta;
   cell_stage->player.y += cell_stage->player.yv * status->delta;
 
-  cell_stage->player.xv /= 1.1;
-  cell_stage->player.yv /= 1.1;
+  cell_stage->player.xv /= 1 + (.005 * status->delta);
+  cell_stage->player.yv /= 1 + (.005 * status->delta);
 
   if(keystate[SDLK_w])
     {
@@ -93,9 +93,10 @@ error_code_t stage_cell_init(stage_base_t ** stage)
   cell_stage->player.x = 64;
   cell_stage->player.y = 64;
 
-  cell_stage->skeleton.skeleton[0] = 1;
-  for(i = 1; i < SKELETON_LEN; i++)
-    cell_stage->skeleton.skeleton[i] = cell_stage->skeleton.skeleton[i - 1] - (1. / SKELETON_LEN);
+  cell_stage->skeleton.skeleton[0] = .5;
+  cell_stage->skeleton.skeleton[1] = 1;
+  for(i = 2; i < SKELETON_LEN; i++)
+    cell_stage->skeleton.skeleton[i] = (1. / i) * 2;
 
   cell_stage->base.update = &stage_cell_update;
   cell_stage->base.draw = &stage_cell_draw;
