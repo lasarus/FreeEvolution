@@ -42,6 +42,13 @@ error_code_t font_write(font_t font, double x, double y, double size, char * tex
     {
       double xtex, ytex;
 
+      if(*text == '\n')
+	{
+	  i = 0;
+	  j++;
+	  continue;
+	}
+
       xtex = (*text % 16) * font.cw;
       ytex = (*text / 16) * font.ch;
 

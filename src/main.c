@@ -55,6 +55,8 @@ int init()
 /* main loop */
 int main(int argc, char ** argv)
 {
+  char buffer[256];
+  Uint32 frame, frame_count_s, frame_count_c, fps;
   Uint32 old_ticks, new_ticks;
   stage_base_t * current_stage;
   stage_update_info_t * stage_state;
@@ -73,6 +75,8 @@ int main(int argc, char ** argv)
   srand(time(NULL));
 
   old_ticks = SDL_GetTicks();
+  frame_count_s = old_ticks;
+  fps = -1;
   while(!quit)
     {
       if(SDL_PollEvent(&event))
@@ -84,6 +88,7 @@ int main(int argc, char ** argv)
 	}
 
       new_ticks = SDL_GetTicks();
+      frame_count_c = new_ticks;
       stage_state->delta = new_ticks - old_ticks;
       stage_state->time = new_ticks;
 
@@ -97,12 +102,21 @@ int main(int argc, char ** argv)
 
       (*current_stage->draw)(current_stage);
 
-      font_write(font, 0, 0, 16, "Text!");
+      if(frame_count_c - frame_count_s > 1000)
+	{
+	  fps = frame;
+	  frame = 0;
+	  frame_count_s = frame_count_c;
+	}
+      
+      sprintf(buffer, "time: %u:%u.%u\nframe: %u\nfps: %u", (new_ticks / 1000) / 60, (new_ticks / 1000) % 60, new_ticks % 1000, frame, fps);
+      font_write(font, 0, 0, 16, buffer);
 
       SDL_GL_SwapBuffers();
-      /*SDL_Delay(10);*/
+      SDL_Delay(50);
       
       old_ticks = new_ticks;
+      frame++;
     }
   (*current_stage->free)(current_stage);
   return 0;
