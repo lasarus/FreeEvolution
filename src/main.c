@@ -110,7 +110,7 @@ int main(int argc, char ** argv)
 	}
       
       sprintf(buffer, "time:\t%u:%u.%u\nframe:\t%u\nfps:\t%u", (new_ticks / 1000) / 60, (new_ticks / 1000) % 60, new_ticks % 1000, frame, fps);
-      font_angled_write_color(font, screen_width / 2, screen_height / 2, 32, 32, buffer, 1, 0, 0, 45);
+      font_angled_write_color(font, screen_width / 2 - 64, screen_height / 2 - 64, 32, 32, buffer, 1, 0, 0, 45);
 
       SDL_GL_SwapBuffers();
       
