@@ -37,7 +37,7 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
     data->creature->skeleton[data->selected] = 10;
   else if(data->creature->skeleton[data->selected] < 0.1)
     data->creature->skeleton[data->selected] = 0.1;
-
+  
 
   if(state->keydown == SDLK_LEFT)
     {
