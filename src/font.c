@@ -37,6 +37,11 @@ error_code_t font_write(font_t font, double x, double y, double vsize, double hs
 
 error_code_t font_write_color(font_t font, double x, double y, double vsize, double hsize, char * text, float r, float g, float b)
 {
+  return font_angled_write_color(font, x, y, vsize, hsize, text, r, g, b, 0);
+}
+
+error_code_t font_angled_write_color(font_t font, double x, double y, double vsize, double hsize, char * text, float r, float g, float b, double rot)
+{
   int i = 0;
   int j = 0;
 
@@ -53,12 +58,21 @@ error_code_t font_write_color(font_t font, double x, double y, double vsize, dou
 	  j++;
 	  continue;
 	}
+      else if(*text == '\t')
+	{
+	  i /= 8;
+	  i++;
+	  i *= 8;
+	  continue;
+	}
 
       xtex = (*text % 16) * font.cw;
       ytex = (*text / 16) * font.ch;
 
       glLoadIdentity();
-      glTranslatef(x + (i * vsize), y + (j * hsize), 0);
+      glTranslatef(x, y, 0);
+      glRotatef(rot, 0, 0, 1);
+      glTranslatef((i * vsize), (j * hsize), 0);
 
       glColor3f(r, g, b);
 
