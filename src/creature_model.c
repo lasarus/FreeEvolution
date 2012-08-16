@@ -9,7 +9,16 @@
 
 #ifndef PI
 #define PI 3.14159265358979
-#endif 
+#endif
+
+
+double height_at_pos(stage_draw_info_t * draw_info, creature_model_t * model, Uint32 animation, int pos)
+{
+  if(animation & ANIMATION_SWIM)
+    return (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
+  else
+    return 0;
+}
 
 void draw_eye(double scale)
 {
@@ -44,12 +53,12 @@ void draw_spike(double scale, int inverted)
   glEnd();
 }
 
-void draw_creature_eyes(creature_model_t * model, double x, double y, double rot, int pos)
+void draw_creature_eyes(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, int pos, Uint32 animation)
 {
   glLoadIdentity();
   glTranslatef(x, y, 0);
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
-  glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
+  glTranslatef(pos * 8, model->skeleton[pos] * 16 - height_at_pos(draw_info, model, animation, pos), 0);
 
   draw_eye(1);
 
@@ -58,12 +67,12 @@ void draw_creature_eyes(creature_model_t * model, double x, double y, double rot
   draw_eye(1);
 }
 
-void draw_creature_spikes(creature_model_t * model, double x, double y, double rot, int pos)
+void draw_creature_spikes(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, int pos, Uint32 animation)
 {
   glLoadIdentity();
   glTranslatef(x, y, 0);
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
-  glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
+  glTranslatef(pos * 8, model->skeleton[pos] * 16 - height_at_pos(draw_info, model, animation, pos), 0);
 
   draw_spike(1, 0);
 
@@ -88,16 +97,8 @@ void draw_editor_creature_model(stage_draw_info_t * draw_info, creature_model_t 
   
   for(i = 1; i < SKELETON_LEN; i++)
     {
-      if(animation & ANIMATION_SWIM)
-	{
-	  w1 = (sin((i + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
-	  w2 = (sin((i + (-draw_info->time / 10.)) / 3.) + 1) * 4.;
-	}
-      else
-	{
-	  w1 = 0;
-	  w2 = 0;
-	}
+      w1 = height_at_pos(draw_info, model, animation, i - 1);
+      w2 = height_at_pos(draw_info, model, animation, i);
 
       glTranslatef(8, 0, 0);
 
@@ -127,15 +128,15 @@ void draw_editor_creature_model(stage_draw_info_t * draw_info, creature_model_t 
       switch(model->additions[i].type)
 	{
 	case ADDITION_EYE:
-	  draw_creature_eyes(model, x, y, rot, model->additions[i].pos);
+	  draw_creature_eyes(draw_info, model, x, y, rot, model->additions[i].pos, animation);
 	  break;
 
 	case ADDITION_MOUTH:
-	  draw_creature_spikes(model, x, y, rot, model->additions[i].pos);
+	  draw_creature_spikes(draw_info, model, x, y, rot, model->additions[i].pos, animation);
 	  break;
 
 	case ADDITION_SPIKE:
-	  draw_creature_spikes(model, x, y, rot, model->additions[i].pos);
+	  draw_creature_spikes(draw_info, model, x, y, rot, model->additions[i].pos, animation);
 	  break;
 
 	default:
