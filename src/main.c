@@ -5,6 +5,7 @@
 
 #include "error_codes.h"
 #include "font.h"
+#include "state_information.h"
 #include "creature_model.h"
 #include "stage.h"
 #include "creature_editor.h"
@@ -110,10 +111,10 @@ int main(int argc, char ** argv)
       frame_count_c = new_ticks;
       stage_state->delta = new_ticks - old_ticks;
       stage_state->time = new_ticks;
-
       stage_state->mouse_state.button = SDL_GetMouseState(&stage_state->mouse_state.x, &stage_state->mouse_state.y);
-
       stage_state->keystate = SDL_GetKeyState(NULL);
+
+      stage_draw_info->time = new_ticks;
 
       (*current_stage->update)(current_stage, stage_state);
 

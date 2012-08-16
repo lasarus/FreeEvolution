@@ -6,6 +6,7 @@
 
 #include "error_codes.h"
 #include "font.h"
+#include "state_information.h"
 #include "creature_model.h"
 #include "stage.h"
 #include "creature_editor.h"
@@ -87,7 +88,7 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
 void draw_creature_editor(editor_data_t * data, stage_draw_info_t * info)
 {
   char * str = NULL;
-  draw_editor_creature_model(data->creature, info->screen_width / 2, info->screen_height / 2, 0, data->selected);
+  draw_editor_creature_model(info, data->creature, info->screen_width / 2, info->screen_height / 2, 0, data->selected, 0);
 
   glLoadIdentity();
   glTranslatef(info->screen_width / 2, 64, 0);

@@ -4,6 +4,11 @@
 #define SKELETON_LEN 15
 #define ADDITION_COUNT 20 
 
+enum
+  {
+    ANIMATION_SWIM = 1 << 0
+  };
+
 typedef enum addition_type
   {
     ADDITION_NONE = 0,
@@ -28,8 +33,8 @@ typedef struct creature_model
 void draw_eye(double scale);
 void draw_spike(double scale, int inverted);
 
-void draw_creature_model(creature_model_t * model, double x, double y, double rot);
-void draw_editor_creature_model(creature_model_t * model, double x, double y, double rot, int selected);
+void draw_creature_model(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, Uint32 animation);
+void draw_editor_creature_model(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, int selected, Uint32 animation);
 
 void creature_add_addition(creature_model_t * model, addition_type_t type, int pos);
 void creature_remove_addition(creature_model_t * model, int pos);

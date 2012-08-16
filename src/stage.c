@@ -4,6 +4,7 @@
 
 #include "error_codes.h"
 #include "font.h"
+#include "state_information.h"
 #include "stage.h"
 
 error_code_t init_player(player_base_t ** player, double x, double y)

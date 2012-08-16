@@ -3,6 +3,8 @@
 #include <math.h>
 
 #include "error_codes.h"
+#include "font.h"
+#include "state_information.h"
 #include "creature_model.h"
 
 #ifndef PI
@@ -70,14 +72,15 @@ void draw_creature_spikes(creature_model_t * model, double x, double y, double r
   draw_spike(1, 1);
 }
 
-void draw_creature_model(creature_model_t * model, double x, double y, double rot)
+void draw_creature_model(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, Uint32 animation)
 {
-  draw_editor_creature_model(model, x, y, rot, -1);
+  draw_editor_creature_model(draw_info, model, x, y, rot, -1, animation);
 }
 
-void draw_editor_creature_model(creature_model_t * model, double x, double y, double rot, int selected)
+void draw_editor_creature_model(stage_draw_info_t * draw_info, creature_model_t * model, double x, double y, double rot, int selected, Uint32 animation)
 {
   int i;
+  double w1, w2;
 
   glLoadIdentity();
   glTranslatef(x, y, 0);
@@ -85,6 +88,17 @@ void draw_editor_creature_model(creature_model_t * model, double x, double y, do
   
   for(i = 1; i < SKELETON_LEN; i++)
     {
+      if(animation & ANIMATION_SWIM)
+	{
+	  w1 = (sin((i + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
+	  w2 = (sin((i + (-draw_info->time / 10.)) / 3.) + 1) * 4.;
+	}
+      else
+	{
+	  w1 = 0;
+	  w2 = 0;
+	}
+
       glTranslatef(8, 0, 0);
 
       glBegin(GL_QUADS);
@@ -94,16 +108,16 @@ void draw_editor_creature_model(creature_model_t * model, double x, double y, do
       else
 	glColor4f(0.000000, 0.535156, 0.488281, 1);
 
-      glVertex3f(-8, -16.f * model->skeleton[i - 1], 0);
-      glVertex3f(-8, 16.f * model->skeleton[i - 1], 0);
+      glVertex3f(-8, 16.f * model->skeleton[i - 1] - w1, 0);
+      glVertex3f(-8, -16.f * model->skeleton[i - 1] - w1, 0);
 
       if(i == selected)	
 	glColor4f(1, 0, 0, 1);
       else
 	glColor4f(0.000000, 0.535156, 0.488281, 1);
 
-      glVertex3f(0, 16.f * model->skeleton[i], 0);
-      glVertex3f(0, -16.f * model->skeleton[i], 0);
+      glVertex3f(0, -16.f * model->skeleton[i] - w2, 0);
+      glVertex3f(0, 16.f * model->skeleton[i] - w2, 0);
 
       glEnd();
     }

@@ -40,34 +40,6 @@ typedef struct world_base
   object_base_t * objects;
 } world_base_t;
 
-typedef struct stage_update_info
-{
-  Uint32 delta;
-  Uint32 time;
-  Uint8 * keystate;
-
-  SDLKey keydown;
-
-  int screen_width;
-  int screen_height;
-
-  struct
-  {
-    int x;
-    int y;
-    Uint8 button;
-  } mouse_state;
-} stage_update_info_t;
-
-typedef struct stage_draw_info
-{
-  int debug;
-  font_t font;
-
-  int screen_width;
-  int screen_height;
-} stage_draw_info_t;
-
 typedef struct stage_base
 {
   stage_type_t type;

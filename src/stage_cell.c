@@ -6,6 +6,7 @@
 
 #include "error_codes.h"
 #include "font.h"
+#include "state_information.h"
 #include "creature_model.h"
 #include "stage.h"
 #include "creature_editor.h"
@@ -88,7 +89,12 @@ error_code_t stage_cell_draw(stage_base_t * self, stage_draw_info_t * info)
     }
 
   draw_world(&(cell_stage->world), info);
-  draw_creature_model(&(cell_stage->skeleton), cell_stage->player.x, cell_stage->player.y, atan2(-cell_stage->player.yv, -cell_stage->player.xv));
+
+  draw_creature_model(info, &(cell_stage->skeleton),
+		      cell_stage->player.x,
+		      cell_stage->player.y,
+		      atan2(-cell_stage->player.yv, -cell_stage->player.xv),
+		      (pow(cell_stage->player.xv, 2) + pow(cell_stage->player.yv, 2) > .25 * .25) ? ANIMATION_SWIM : 0);
 
   if(info->debug)
     font_write_color(info->font, cell_stage->player.x, cell_stage->player.y, 16, 16, "Player", 0, 0, 0);
