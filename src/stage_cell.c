@@ -51,7 +51,8 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
       cell_stage->player.xv += 1 * PLAYER_SPEED * status->delta;
     }
 
-  if(status->mouse_state.button & SDL_BUTTON(1))
+  if(status->mouse_state.button & SDL_BUTTON(1) &&
+     (pow(status->mouse_state.y - cell_stage->player.y, 2) + pow(status->mouse_state.x - cell_stage->player.x, 2) > 8 * 8))
     {
       double angl;
 
@@ -61,7 +62,7 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
       cell_stage->player.yv += sin(angl) * PLAYER_SPEED * status->delta;
     }
   
-  if(rand() % 128 == 0)
+  if(rand() % 64128 == 0)
     add_object_to_world(&(cell_stage->world),
 			new_object(OBJECT_FOOD,
 				   rand() % status->screen_width, rand() % status->screen_height,

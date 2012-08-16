@@ -45,6 +45,27 @@ error_code_t update_world(world_base_t * world, player_base_t * player, stage_up
 	  world->objects[i].x += world->objects[i].xv * status->delta;
 	  world->objects[i].y += world->objects[i].yv * status->delta;
 
+	  if(world->objects[i].x < 0)
+	    {
+	      world->objects[i].x = 0;
+	      world->objects[i].xv = -world->objects[i].xv;
+	    }
+	  else if(world->objects[i].x > status->screen_width)
+	    {
+	      world->objects[i].x = status->screen_width;
+	      world->objects[i].xv = -world->objects[i].xv;
+	    }
+	  if(world->objects[i].y < 0)
+	    {
+	      world->objects[i].y = 0;
+	      world->objects[i].yv = -world->objects[i].yv;
+	    }
+	  else if(world->objects[i].y > status->screen_height)
+	    {
+	      world->objects[i].y = status->screen_height;
+	      world->objects[i].yv = -world->objects[i].yv;
+	    }
+
 	  if(dist_from_player(world->objects[i].x, world->objects[i].y, player) > 2000 ||
 	     dist_from_player(world->objects[i].x, world->objects[i].y, player) < 16)
 	    {

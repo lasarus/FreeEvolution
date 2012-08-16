@@ -157,3 +157,17 @@ void creature_remove_addition(creature_model_t * model, int pos)
 	}
     }
 }
+
+int creature_addition_at_pos(creature_model_t * model, int pos)
+{
+  int i;
+
+  for(i = 0; i < ADDITION_COUNT; i++)
+    {
+      if(model->additions[i].type != ADDITION_NONE && model->additions[i].pos == pos)
+	{
+	  return 1;
+	}
+    }
+  return 0;
+}

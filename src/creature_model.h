@@ -33,5 +33,6 @@ void draw_editor_creature_model(creature_model_t * model, double x, double y, do
 
 void creature_add_addition(creature_model_t * model, addition_type_t type, int pos);
 void creature_remove_addition(creature_model_t * model, int pos);
+int creature_addition_at_pos(creature_model_t * model, int pos);
 
 #endif

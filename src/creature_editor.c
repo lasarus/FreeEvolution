@@ -69,7 +69,10 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
   
   if(state->keydown == SDLK_LCTRL)
     {
-      creature_add_addition(data->creature, data->current_type, data->selected);
+      if(creature_addition_at_pos(data->creature, data->selected))
+	creature_remove_addition(data->creature, data->selected);
+      else
+	creature_add_addition(data->creature, data->current_type, data->selected);
     }
   else if(state->keydown == SDLK_TAB)
     {
