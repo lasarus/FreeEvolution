@@ -17,20 +17,50 @@ editor_data_t init_creature_editor(creature_model_t * creature)
   data.creature = creature;
   data.selected = 3;
 
+  data.current_type = ADDITION_EYE;
+  data.saddition = 0;
+
   return data;
 }
 
 int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
 {
-  if(state->keystate[SDLK_UP] && data->creature->skeleton[data->selected] < 10)
+  if(!data->saddition)
     {
-      if(data->creature->skeleton[data->selected] < 10)
-	data->creature->skeleton[data->selected] += 0.01 * state->delta;
+      if(state->keystate[SDLK_UP] && data->creature->skeleton[data->selected] < 10)
+	{
+	  if(data->creature->skeleton[data->selected] < 10)
+	    data->creature->skeleton[data->selected] += 0.01 * state->delta;
+	}
+      else if(state->keystate[SDLK_DOWN])
+	{
+	  if(data->creature->skeleton[data->selected] > 0.1)
+	    data->creature->skeleton[data->selected] -= 0.01 * state->delta;
+	}
+
+      if(state->keydown == SDLK_LEFT)
+	{
+	  if(data->selected > 0)
+	    data->selected--;
+	}
+      else if(state->keydown == SDLK_RIGHT)
+	{
+	  if(data->selected < SKELETON_LEN - 1)
+	    data->selected++;
+	}
     }
-  else if(state->keystate[SDLK_DOWN])
+  else
     {
-      if(data->creature->skeleton[data->selected] > 0.1)
-	data->creature->skeleton[data->selected] -= 0.01 * state->delta;
+      if(state->keydown == SDLK_LEFT)
+	{
+	  if(data->selected > 0)
+	    data->current_type--;
+	}
+      else if(state->keydown == SDLK_RIGHT)
+	{
+	  if(data->selected < 3 - 1)
+	    data->current_type++;
+	}
     }
 
   if(data->creature->skeleton[data->selected] > 10)
@@ -38,20 +68,13 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
   else if(data->creature->skeleton[data->selected] < 0.1)
     data->creature->skeleton[data->selected] = 0.1;
   
-
-  if(state->keydown == SDLK_LEFT)
+  if(state->keydown == SDLK_LCTRL)
     {
-      if(data->selected > 0)
-	data->selected--;
+      creature_add_addition(data->creature, data->current_type, data->selected);
     }
-  else if(state->keydown == SDLK_RIGHT)
+  else if(state->keydown == SDLK_TAB)
     {
-      if(data->selected < SKELETON_LEN - 1)
-	data->selected++;
-    }
-  else if(state->keydown == SDLK_LCTRL)
-    {
-      data->creature->eyes = data->selected;
+      data->saddition = !data->saddition;
     }
 
   if(state->keydown == SDLK_F2)

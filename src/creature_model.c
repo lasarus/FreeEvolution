@@ -9,12 +9,12 @@
 #define PI 3.14159265358979
 #endif 
 
-void draw_creature_eyes(creature_model_t * model, double x, double y, double rot)
+void draw_creature_eyes(creature_model_t * model, double x, double y, double rot, int pos)
 {
   glLoadIdentity();
   glTranslatef(x, y, 0);
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
-  glTranslatef(model->eyes * 8, model->skeleton[model->eyes] * 16, 0);
+  glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
 
   glBegin(GL_QUADS);
   
@@ -33,7 +33,7 @@ void draw_creature_eyes(creature_model_t * model, double x, double y, double rot
       
   glEnd();
 
-  glTranslatef(0, -(model->skeleton[model->eyes] * 32), 0);
+  glTranslatef(0, -(model->skeleton[pos] * 32), 0);
 
   glBegin(GL_QUADS);
   
@@ -49,6 +49,36 @@ void draw_creature_eyes(creature_model_t * model, double x, double y, double rot
   glVertex3f(2., -2., 0);
   glVertex3f(2., 2., 0);
   glVertex3f(-2., 2., 0);
+      
+  glEnd();
+}
+
+void draw_creature_spikes(creature_model_t * model, double x, double y, double rot, int pos)
+{
+  glLoadIdentity();
+  glTranslatef(x, y, 0);
+  glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
+  glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
+
+  glBegin(GL_TRIANGLES);
+  
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-4, 0, 0);
+  glVertex3f(4, 0, 0);
+  glVertex3f(0, 32, 0);
+      
+  glEnd();
+
+  glTranslatef(0, -(model->skeleton[pos] * 32), 0);
+
+  glBegin(GL_TRIANGLES);
+  
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-4, 0, 0);
+  glVertex3f(4, 0, 0);
+  glVertex3f(0, -32, 0);
       
   glEnd();
 }
@@ -91,5 +121,52 @@ void draw_editor_creature_model(creature_model_t * model, double x, double y, do
       glEnd();
     }
 
-  draw_creature_eyes(model, x, y, rot);
+  for(i = 0; i < ADDITION_COUNT; i++)
+    {
+      switch(model->additions[i].type)
+	{
+	case ADDITION_EYE:
+	  draw_creature_eyes(model, x, y, rot, model->additions[i].pos);
+	  break;
+
+	case ADDITION_MOUTH:
+	  draw_creature_spikes(model, x, y, rot, model->additions[i].pos);
+	  break;
+
+	case ADDITION_SPIKE:
+	  draw_creature_spikes(model, x, y, rot, model->additions[i].pos);
+	  break;
+
+	default:
+	  break;
+	}
+    }
+}
+
+void creature_add_addition(creature_model_t * model, addition_type_t type, int pos)
+{
+  int i;
+
+  for(i = 0; i < ADDITION_COUNT; i++)
+    {
+      if(model->additions[i].type == ADDITION_NONE)
+	{
+	  model->additions[i].type = type;
+	  model->additions[i].pos = pos;
+	  break;
+	}
+    }
+}
+
+void creature_remove_addition(creature_model_t * model, int pos)
+{
+  int i;
+
+  for(i = 0; i < ADDITION_COUNT; i++)
+    {
+      if(model->additions[i].type != ADDITION_NONE && model->additions[i].pos == pos)
+	{
+	  model->additions[i].type = ADDITION_NONE;
+	}
+    }
 }
