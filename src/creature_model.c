@@ -9,6 +9,39 @@
 #define PI 3.14159265358979
 #endif 
 
+void draw_eye(double scale)
+{
+  glBegin(GL_QUADS);
+
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-8. * scale, -8. * scale, 0);
+  glVertex3f(8. * scale, -8. * scale, 0);
+  glVertex3f(8. * scale, 8. * scale, 0);
+  glVertex3f(-8. * scale, 8. * scale, 0);
+
+  glColor4f(0, 0, 0, 1);
+  glVertex3f(-2. * scale, -2. * scale, 0);
+  glVertex3f(2. * scale, -2. * scale, 0);
+  glVertex3f(2. * scale, 2. * scale, 0);
+  glVertex3f(-2. * scale, 2. * scale, 0);
+
+  glEnd();
+}
+
+void draw_spike(double scale, int inverted)
+{
+  glBegin(GL_TRIANGLES);
+  
+  glColor4f(1, 1, 1, 1);
+      
+  glVertex3f(-4 * scale, 0, 0);
+  glVertex3f(4 * scale, 0, 0);
+  glVertex3f(0, (inverted ? -32 : 32) * scale, 0);
+      
+  glEnd();
+}
+
 void draw_creature_eyes(creature_model_t * model, double x, double y, double rot, int pos)
 {
   glLoadIdentity();
@@ -16,41 +49,11 @@ void draw_creature_eyes(creature_model_t * model, double x, double y, double rot
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
   glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
 
-  glBegin(GL_QUADS);
-  
-  glColor4f(1, 1, 1, 1);
-      
-  glVertex3f(-8., -8., 0);
-  glVertex3f(8., -8., 0);
-  glVertex3f(8., 8., 0);
-  glVertex3f(-8., 8., 0);
-
-  glColor4f(0, 0, 0, 1);
-  glVertex3f(-2., -2., 0);
-  glVertex3f(2., -2., 0);
-  glVertex3f(2., 2., 0);
-  glVertex3f(-2., 2., 0);
-      
-  glEnd();
+  draw_eye(1);
 
   glTranslatef(0, -(model->skeleton[pos] * 32), 0);
 
-  glBegin(GL_QUADS);
-  
-  glColor4f(1, 1, 1, 1);
-      
-  glVertex3f(-8., -8., 0);
-  glVertex3f(8., -8., 0);
-  glVertex3f(8., 8., 0);
-  glVertex3f(-8., 8., 0);
-
-  glColor4f(0, 0, 0, 1);
-  glVertex3f(-2., -2., 0);
-  glVertex3f(2., -2., 0);
-  glVertex3f(2., 2., 0);
-  glVertex3f(-2., 2., 0);
-      
-  glEnd();
+  draw_eye(1);
 }
 
 void draw_creature_spikes(creature_model_t * model, double x, double y, double rot, int pos)
@@ -60,27 +63,11 @@ void draw_creature_spikes(creature_model_t * model, double x, double y, double r
   glRotatef(rot / PI * 180, 0.f, 0.f, 1.f);
   glTranslatef(pos * 8, model->skeleton[pos] * 16, 0);
 
-  glBegin(GL_TRIANGLES);
-  
-  glColor4f(1, 1, 1, 1);
-      
-  glVertex3f(-4, 0, 0);
-  glVertex3f(4, 0, 0);
-  glVertex3f(0, 32, 0);
-      
-  glEnd();
+  draw_spike(1, 0);
 
   glTranslatef(0, -(model->skeleton[pos] * 32), 0);
 
-  glBegin(GL_TRIANGLES);
-  
-  glColor4f(1, 1, 1, 1);
-      
-  glVertex3f(-4, 0, 0);
-  glVertex3f(4, 0, 0);
-  glVertex3f(0, -32, 0);
-      
-  glEnd();
+  draw_spike(1, 1);
 }
 
 void draw_creature_model(creature_model_t * model, double x, double y, double rot)

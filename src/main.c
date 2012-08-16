@@ -138,6 +138,7 @@ int main(int argc, char ** argv)
 	font_write_color(font, 0, 0, 32, 32, buffer, 0, 0, 0);
 
       SDL_GL_SwapBuffers();
+      SDL_Delay(10);
       
       old_ticks = new_ticks;
       frame++;

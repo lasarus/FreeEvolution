@@ -53,13 +53,12 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
     {
       if(state->keydown == SDLK_LEFT)
 	{
-	  if(data->selected > 0)
+	  if(data->selected > 1)
 	    data->current_type--;
 	}
       else if(state->keydown == SDLK_RIGHT)
 	{
-	  if(data->selected < 3 - 1)
-	    data->current_type++;
+	  data->current_type++;
 	}
     }
 
@@ -84,5 +83,31 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
 
 void draw_creature_editor(editor_data_t * data, stage_draw_info_t * info)
 {
+  char * str = NULL;
   draw_editor_creature_model(data->creature, info->screen_width / 2, info->screen_height / 2, 0, data->selected);
+
+  glLoadIdentity();
+  glTranslatef(info->screen_width / 2, 30, 0);
+
+  switch(data->current_type)
+    {
+    case ADDITION_MOUTH:
+      str = "Mouth";
+      break;
+
+    case ADDITION_EYE:
+      draw_eye(4);
+      str = "Eye";
+      break;
+
+    case ADDITION_SPIKE:
+      draw_spike(4, 1);
+      str = "Spike";
+      break;
+
+    default:
+      str = "?";
+      break;
+    }
+  font_write(info->font, info->screen_width / 2, 64, 16, 16, str);
 }
