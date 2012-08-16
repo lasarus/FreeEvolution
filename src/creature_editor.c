@@ -90,7 +90,7 @@ void draw_creature_editor(editor_data_t * data, stage_draw_info_t * info)
   draw_editor_creature_model(data->creature, info->screen_width / 2, info->screen_height / 2, 0, data->selected);
 
   glLoadIdentity();
-  glTranslatef(info->screen_width / 2, 30, 0);
+  glTranslatef(info->screen_width / 2, 64, 0);
 
   switch(data->current_type)
     {
