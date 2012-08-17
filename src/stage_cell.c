@@ -79,6 +79,7 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
 
 error_code_t stage_cell_draw(stage_base_t * self, stage_draw_info_t * info)
 {
+  Uint32 animation;
   stage_cell_t * cell_stage = (stage_cell_t *)self;
 
   if(cell_stage->editor)
@@ -90,11 +91,16 @@ error_code_t stage_cell_draw(stage_base_t * self, stage_draw_info_t * info)
 
   draw_world(&(cell_stage->world), info);
 
+  if(pow(cell_stage->player.xv, 2) + pow(cell_stage->player.yv, 2) > .25 * .25)
+    animation = ANIMATION_SWIM_FAST;
+  else if(pow(cell_stage->player.xv, 2) + pow(cell_stage->player.yv, 2) > .10 * .10)
+    animation = ANIMATION_SWIM_SLOW;
+
   draw_creature_model(info, &(cell_stage->skeleton),
 		      cell_stage->player.x,
 		      cell_stage->player.y,
 		      atan2(-cell_stage->player.yv, -cell_stage->player.xv),
-		      (pow(cell_stage->player.xv, 2) + pow(cell_stage->player.yv, 2) > .25 * .25) ? ANIMATION_SWIM : 0);
+		      animation);
 
   if(info->debug)
     font_write_color(info->font, cell_stage->player.x, cell_stage->player.y, 16, 16, "Player", 0, 0, 0);

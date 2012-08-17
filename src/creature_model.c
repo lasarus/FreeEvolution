@@ -14,7 +14,9 @@
 
 double height_at_pos(stage_draw_info_t * draw_info, creature_model_t * model, Uint32 animation, int pos)
 {
-  if(animation & ANIMATION_SWIM)
+  if(animation & ANIMATION_SWIM_FAST)
+    return (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 8.;
+  else if(animation & ANIMATION_SWIM_SLOW)
     return (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
   else
     return 0;
