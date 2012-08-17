@@ -7,7 +7,9 @@
 enum
   {
     ANIMATION_SWIM_SLOW = 1 << 0,
-    ANIMATION_SWIM_FAST = 1 << 1
+    ANIMATION_SWIM_FAST = 1 << 1,
+    ANIMATION_TURN_LEFT = 1 << 2,
+    ANIMATION_TURN_RIGHT = 1 << 3
   };
 
 typedef enum addition_type

@@ -4,6 +4,7 @@
 typedef struct editor_data
 {
   int selected, saddition;
+  Uint32 last_event;
   addition_type_t current_type;
   creature_model_t * creature;
 } editor_data_t;

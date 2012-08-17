@@ -29,6 +29,8 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
       return ERROR_NONE;
     }
 
+  cell_stage->player_rot = atan2(-cell_stage->player.yv, -cell_stage->player.xv);
+
   cell_stage->player.x += cell_stage->player.xv * status->delta;
   cell_stage->player.y += cell_stage->player.yv * status->delta;
 
@@ -67,7 +69,8 @@ error_code_t stage_cell_update(stage_base_t * self, stage_update_info_t * status
     add_object_to_world(&(cell_stage->world),
 			new_object(OBJECT_FOOD,
 				   rand() % status->screen_width, rand() % status->screen_height,
-				   ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5, ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5));
+				   ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5,
+				   ((rand() % 128) / 128.) * OBJECT_SPEED - OBJECT_SPEED * .5));
 
   update_world(&(cell_stage->world), &(cell_stage->player), status);
   
@@ -95,6 +98,11 @@ error_code_t stage_cell_draw(stage_base_t * self, stage_draw_info_t * info)
     animation = ANIMATION_SWIM_FAST;
   else if(pow(cell_stage->player.xv, 2) + pow(cell_stage->player.yv, 2) > .2 * .2)
     animation = ANIMATION_SWIM_SLOW;
+
+  if(atan2(-cell_stage->player.yv, -cell_stage->player.xv) - cell_stage->player_rot > .01)
+    animation = animation | ANIMATION_TURN_LEFT;
+  else if(atan2(-cell_stage->player.yv, -cell_stage->player.xv) - cell_stage->player_rot < -.01)
+    animation = animation | ANIMATION_TURN_RIGHT;
 
   draw_creature_model(info, &(cell_stage->skeleton),
 		      cell_stage->player.x,
@@ -127,6 +135,7 @@ error_code_t stage_cell_init(stage_base_t ** stage)
 
   cell_stage->player.x = 64;
   cell_stage->player.y = 64;
+  cell_stage->player_rot = 0;
 
   cell_stage->skeleton.skeleton[0] = .5;
   cell_stage->skeleton.skeleton[1] = 1;

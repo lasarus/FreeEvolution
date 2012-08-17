@@ -11,15 +11,20 @@
 #define PI 3.14159265358979
 #endif
 
-
 double height_at_pos(stage_draw_info_t * draw_info, creature_model_t * model, Uint32 animation, int pos)
 {
+  double r = 0;
   if(animation & ANIMATION_SWIM_FAST)
-    return (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 8.;
+    r += (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 8.;
   else if(animation & ANIMATION_SWIM_SLOW)
-    return (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
-  else
-    return 0;
+    r += (sin((pos + (-draw_info->time / 10.) - 1) / 3.) + 1) * 4.;
+  
+  if(animation & ANIMATION_TURN_LEFT)
+    r += pos * pos / 8.;
+  else if(animation & ANIMATION_TURN_RIGHT)
+    r -= pos * pos / 8.;
+
+  return r;
 }
 
 void draw_eye(double scale)

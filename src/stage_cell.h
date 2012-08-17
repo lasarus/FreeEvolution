@@ -7,6 +7,7 @@ typedef struct stage_cell
 
   world_base_t world;
 
+  double player_rot;
   player_base_t player;
   creature_model_t skeleton;
 

@@ -21,6 +21,8 @@ editor_data_t init_creature_editor(creature_model_t * creature)
   data.current_type = ADDITION_EYE;
   data.saddition = 0;
 
+  data.last_event = 0;
+
   return data;
 }
 
@@ -32,11 +34,13 @@ int update_creature_editor(editor_data_t * data, stage_update_info_t * state)
 	{
 	  if(data->creature->skeleton[data->selected] < 10)
 	    data->creature->skeleton[data->selected] += 0.01 * state->delta;
+	  data->last_event = state->time;
 	}
       else if(state->keystate[SDLK_DOWN])
 	{
 	  if(data->creature->skeleton[data->selected] > 0.1)
 	    data->creature->skeleton[data->selected] -= 0.01 * state->delta;
+	  data->last_event = state->time;
 	}
 
       if(state->keydown == SDLK_LEFT)
