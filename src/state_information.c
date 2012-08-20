@@ -2,7 +2,7 @@
 #include <SDL/SDL_opengl.h>
 
 #include "error_codes.h"
-#include "font.h"
+#include "font/font.h"
 #include "state_information.h"
 
 stage_draw_info_t new_draw_info(int debug, font_t font, int screen_width, int screen_height)

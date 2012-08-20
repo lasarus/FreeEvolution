@@ -2,9 +2,9 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_opengl.h>
 
-#include "error_codes.h"
+#include "../error_codes.h"
 #include "font.h"
-#include "image.h"
+#include "../image.h"
 
 error_code_t font_create(font_t * font, char * path)
 {

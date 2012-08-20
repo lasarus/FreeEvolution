@@ -4,12 +4,12 @@
 #include <time.h>
 #include <math.h>
 
-#include "error_codes.h"
-#include "font.h"
-#include "state_information.h"
-#include "creature_model.h"
-#include "stage.h"
-#include "creature_editor.h"
+#include "../../error_codes.h"
+#include "../../font/font.h"
+#include "../../state_information.h"
+#include "../../creature/creature_model.h"
+#include "../stage.h"
+#include "../../creature/creature_editor.h"
 #include "stage_cell.h"
 
 #define PLAYER_SPEED .002

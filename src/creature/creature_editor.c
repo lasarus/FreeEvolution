@@ -4,11 +4,10 @@
 #include <time.h>
 #include <math.h>
 
-#include "error_codes.h"
-#include "font.h"
-#include "state_information.h"
+#include "../error_codes.h"
+#include "../font/font.h"
+#include "../state_information.h"
 #include "creature_model.h"
-#include "stage.h"
 #include "creature_editor.h"
 
 editor_data_t init_creature_editor(creature_model_t * creature)

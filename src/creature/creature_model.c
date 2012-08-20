@@ -2,9 +2,9 @@
 #include <SDL/SDL_opengl.h>
 #include <math.h>
 
-#include "error_codes.h"
-#include "font.h"
-#include "state_information.h"
+#include "../error_codes.h"
+#include "../font/font.h"
+#include "../state_information.h"
 #include "creature_model.h"
 
 #ifndef PI

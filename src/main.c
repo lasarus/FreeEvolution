@@ -4,12 +4,12 @@
 #include <time.h>
 
 #include "error_codes.h"
-#include "font.h"
+#include "font/font.h"
 #include "state_information.h"
-#include "creature_model.h"
-#include "stage.h"
-#include "creature_editor.h"
-#include "stage_cell.h"
+#include "creature/creature_model.h"
+#include "stage/stage.h"
+#include "creature/creature_editor.h"
+#include "stage/cell/stage_cell.h"
 
 int screen_width = 1280, screen_height = 720, screen_bpp = 32;
 int quit = 0;
@@ -25,7 +25,7 @@ int init_gl()
   glEnable(GL_TEXTURE_2D);
 
   glClearColor(0.50390625f, 0.6953125f, 0.85546875f, 1);
-
+  
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0, screen_width, screen_height, 0, -1, 1);
@@ -43,7 +43,7 @@ int init()
   if(SDL_Init(SDL_INIT_EVERYTHING) == -1)
     return 1;
   
-  screen = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, SDL_OPENGL);
+  screen = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, SDL_OPENGL | SDL_FULLSCREEN);
   
   if(screen == NULL)
     return 1;
